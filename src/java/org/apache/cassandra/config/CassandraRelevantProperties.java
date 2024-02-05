@@ -417,7 +417,9 @@ public enum CassandraRelevantProperties
 
     // Changes the semantic of the "THREE" consistency level to mean "all but one"
     // i.e. that all replicas except for at most one in the cluster (across all DCs) must accept the write for it to be successful.
-    THREE_MEANS_ALL_BUT_ONE("dse.consistency_level.three_means_all_but_one", "false");
+    THREE_MEANS_ALL_BUT_ONE("dse.consistency_level.three_means_all_but_one", "false"),
+    CUSTOM_KEYSPACES_FILTER_PROVIDER("cassandra.custom_keyspaces_filter_provider_class"),
+    CUSTOM_READ_OBSERVER_FACTORY("cassandra.custom_read_observer_factory_class");
 
     CassandraRelevantProperties(String key, String defaultVal)
     {

@@ -36,6 +36,7 @@ import javax.annotation.Nullable;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableSet;
+import org.apache.cassandra.service.ClientWarn;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -302,7 +303,7 @@ public class IndexContext
                 if (!validateCumulativeAnalyzedTermLimit(key, analyzer))
                 {
                     var error = String.format(ANALYZED_TERM_OVERSIZE_ERROR_MESSAGE,
-                                              column.name, FBUtilities.prettyPrintMemory(maxTermSize));
+                            column.name, FBUtilities.prettyPrintMemory(maxTermSize));
                     throw new InvalidRequestException(error);
                 }
             }
@@ -314,9 +315,9 @@ public class IndexContext
                     if (!validateMaxTermSize(key, size))
                     {
                         var error = String.format(TERM_OVERSIZE_ERROR_MESSAGE,
-                                                  column.name,
-                                                  FBUtilities.prettyPrintMemory(size),
-                                                  FBUtilities.prettyPrintMemory(maxTermSize));
+                                column.name,
+                                FBUtilities.prettyPrintMemory(size),
+                                FBUtilities.prettyPrintMemory(maxTermSize));
                         throw new InvalidRequestException(error);
                     }
                 }
@@ -343,10 +344,10 @@ public class IndexContext
         if (termSize > maxTermSize)
         {
             noSpamLogger.warn(logMessage(TERM_OVERSIZE_LOG_MESSAGE),
-                              getColumnName(),
-                              keyValidator().getString(key.getKey()),
-                              FBUtilities.prettyPrintMemory(termSize),
-                              FBUtilities.prettyPrintMemory(maxTermSize));
+                    getColumnName(),
+                    keyValidator().getString(key.getKey()),
+                    FBUtilities.prettyPrintMemory(termSize),
+                    FBUtilities.prettyPrintMemory(maxTermSize));
             return false;
         }
 
@@ -364,9 +365,9 @@ public class IndexContext
             if (bytesCount > maxTermSize)
             {
                 noSpamLogger.warn(logMessage(ANALYZED_TERM_OVERSIZE_LOG_MESSAGE),
-                                  getColumnName(),
-                                  keyValidator().getString(key.getKey()),
-                                  FBUtilities.prettyPrintMemory(maxTermSize));
+                        getColumnName(),
+                        keyValidator().getString(key.getKey()),
+                        FBUtilities.prettyPrintMemory(maxTermSize));
                 return false;
             }
         }

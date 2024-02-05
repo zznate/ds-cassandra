@@ -49,6 +49,7 @@ import com.google.common.util.concurrent.ListenableFuture;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import io.github.jbellis.jvector.vector.VectorSimilarityFunction;
 import org.apache.cassandra.config.DatabaseDescriptor;
 import org.apache.cassandra.cql3.CQL3Type;
 import org.apache.cassandra.cql3.Operator;
@@ -106,7 +107,6 @@ import org.apache.cassandra.schema.TableMetadata;
 import org.apache.cassandra.service.StorageService;
 import org.apache.cassandra.utils.FBUtilities;
 import org.apache.cassandra.utils.Pair;
-import io.github.jbellis.jvector.vector.VectorSimilarityFunction;
 
 import static org.apache.cassandra.config.CassandraRelevantProperties.SAI_VALIDATE_TERMS_AT_COORDINATOR;
 import static org.apache.cassandra.index.sai.disk.v1.IndexWriterConfig.MAX_TOP_K;
@@ -374,12 +374,12 @@ public class StorageAttachedIndex implements Index
         return config;
     }
 
-     @Override
-     public boolean shouldSkipInitialization()
-     {
-         // SAI performs partial initialization so it must always execute it; the actual index build is then still skipped
-         // if IndexBuildDecider.instance.onInitialBuild().skipped() is true.
-         return false;
+    @Override
+    public boolean shouldSkipInitialization()
+    {
+        // SAI performs partial initialization so it must always execute it; the actual index build is then still skipped
+        // if IndexBuildDecider.instance.onInitialBuild().skipped() is true.
+        return false;
     }
 
     @Override
@@ -706,6 +706,7 @@ public class StorageAttachedIndex implements Index
         for (Row row : update)
             indexContext.validate(key, row);
     }
+
     /**
      * This method is called by the startup tasks to find SSTables that don't have indexes. The method is
      * synchronized so that the view is unchanged between validation and the selection of non-indexed SSTables.
