@@ -3349,6 +3349,15 @@ public class ColumnFamilyStore implements ColumnFamilyStoreMBean, Memtable.Owner
         return Objects.requireNonNull(getIfExists(tableId)).metric;
     }
 
+    // Used by CNDB
+    public long getMemtablesLiveSize()
+    {
+        long liveSize = 0L;
+        for (Memtable memtable : data.getView().getAllMemtables())
+            liveSize += memtable.getLiveDataSize();
+        return liveSize;
+    }
+
     public DiskBoundaries getDiskBoundaries()
     {
         return diskBoundaryManager.getDiskBoundaries(this);

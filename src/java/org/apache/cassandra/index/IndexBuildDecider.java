@@ -37,7 +37,6 @@ public interface IndexBuildDecider
          * index will be built synchronously
          */
         SYNC,
-
         /**
          * index will be built asynchronously
          */
