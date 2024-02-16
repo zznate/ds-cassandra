@@ -20,6 +20,7 @@ package org.apache.cassandra.metrics;
 import java.util.concurrent.TimeUnit;
 import javax.annotation.Nonnull;
 
+import com.github.benmanes.caffeine.cache.RemovalCause;
 import com.google.common.annotations.VisibleForTesting;
 
 import com.github.benmanes.caffeine.cache.stats.CacheStats;
@@ -29,6 +30,7 @@ import io.micrometer.core.instrument.Tags;
 import io.micrometer.core.instrument.Timer;
 import org.apache.cassandra.cache.CacheSize;
 import org.apache.cassandra.utils.FBUtilities;
+import org.checkerframework.checker.index.qual.NonNegative;
 
 /**
  * Micrometer implementation for the chunk cache metrics.
@@ -89,14 +91,7 @@ public class MicrometerChunkCacheMetrics extends MicrometerMetrics implements Ch
     }
 
     @Override
-    public void recordEviction()
-    {
-        evictions.increment();
-    }
-
-    @Override
-    public void recordEviction(int weight)
-    {
+    public void recordEviction(@NonNegative int weight, RemovalCause removalCause) {
         evictions.increment(weight);
     }
 
@@ -189,7 +184,7 @@ public class MicrometerChunkCacheMetrics extends MicrometerMetrics implements Ch
     @Override
     public CacheStats snapshot()
     {
-        return new CacheStats(metrics.hits(), metrics.misses(), missLatency.count(),
+        return CacheStats.of(metrics.hits(), metrics.misses(), missLatency.count(),
                 0L, (long) missLatency.totalTime(TimeUnit.NANOSECONDS), (long) evictions.count(), 0L);
     }
 

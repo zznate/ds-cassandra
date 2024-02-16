@@ -22,11 +22,13 @@ package org.apache.cassandra.metrics;
 
 import javax.annotation.Nonnull;
 
+import com.github.benmanes.caffeine.cache.RemovalCause;
 import com.google.common.annotations.VisibleForTesting;
 
 import com.github.benmanes.caffeine.cache.stats.CacheStats;
 import com.github.benmanes.caffeine.cache.stats.StatsCounter;
 import org.apache.cassandra.cache.ChunkCache;
+import org.checkerframework.checker.index.qual.NonNegative;
 
 import static org.apache.cassandra.config.CassandraRelevantProperties.USE_MICROMETER;
 
@@ -50,7 +52,7 @@ public interface ChunkCacheMetrics extends StatsCounter, CacheMetrics
     void recordLoadFailure(long loadTime);
 
     @Override
-    void recordEviction();
+    void recordEviction(@NonNegative int i, RemovalCause removalCause);
 
     double missLatency();
 
