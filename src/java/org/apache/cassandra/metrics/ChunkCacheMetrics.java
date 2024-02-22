@@ -51,7 +51,7 @@ public interface ChunkCacheMetrics extends StatsCounter, CacheMetrics
     void recordLoadFailure(long loadTime);
 
     @Override
-    void recordEviction(RemovalCause removalCause);
+    void recordEviction(int weight, RemovalCause removalCause);
 
     double missLatency();
 
