@@ -30,7 +30,6 @@ import io.micrometer.core.instrument.Tags;
 import io.micrometer.core.instrument.Timer;
 import org.apache.cassandra.cache.CacheSize;
 import org.apache.cassandra.utils.FBUtilities;
-import org.checkerframework.checker.index.qual.NonNegative;
 
 /**
  * Micrometer implementation for the chunk cache metrics.
@@ -91,7 +90,7 @@ public class MicrometerChunkCacheMetrics extends MicrometerMetrics implements Ch
     }
 
     @Override
-    public void recordEviction(@NonNegative int weight, RemovalCause removalCause) {
+    public void recordEviction(int weight, RemovalCause removalCause) {
         evictions.increment(weight);
     }
 

@@ -27,7 +27,6 @@ import com.codahale.metrics.Timer;
 import com.github.benmanes.caffeine.cache.stats.CacheStats;
 import org.apache.cassandra.cache.ChunkCache;
 import org.apache.cassandra.utils.FBUtilities;
-import org.checkerframework.checker.index.qual.NonNegative;
 
 /**
  * Codahale implementation for the chunk cache metrics.
@@ -77,7 +76,7 @@ public class CodahaleChunkCacheMetrics implements ChunkCacheMetrics
     }
 
     @Override
-    public void recordEviction(@NonNegative int i, RemovalCause removalCause) {
+    public void recordEviction(int weight, RemovalCause removalCause) {
     }
 
     @Override
