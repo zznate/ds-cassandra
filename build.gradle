@@ -1,0 +1,19 @@
+plugins {
+    id 'java-library'
+}
+
+ant.importBuild('build.xml') { antTargetName ->
+    'g_' + antTargetName
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs = [ ant.properties['build.src.java'] ]
+            destinationDirectory = file(ant.properties['build.classes.main'])
+        }
+    }
+}
+
+
+
