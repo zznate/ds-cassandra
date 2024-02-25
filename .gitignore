@@ -59,6 +59,7 @@ nbactions.xml
 # Maven, etc.
 out/
 target/
+.gradle/
 
 # General
 **/__pycache__
