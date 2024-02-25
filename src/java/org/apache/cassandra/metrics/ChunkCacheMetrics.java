@@ -22,6 +22,7 @@ package org.apache.cassandra.metrics;
 
 import javax.annotation.Nonnull;
 
+import com.github.benmanes.caffeine.cache.RemovalCause;
 import com.google.common.annotations.VisibleForTesting;
 
 import com.github.benmanes.caffeine.cache.stats.CacheStats;
@@ -50,7 +51,7 @@ public interface ChunkCacheMetrics extends StatsCounter, CacheMetrics
     void recordLoadFailure(long loadTime);
 
     @Override
-    void recordEviction();
+    void recordEviction(int weight, RemovalCause removalCause);
 
     double missLatency();
 
