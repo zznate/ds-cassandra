@@ -15,5 +15,83 @@ sourceSets {
     }
 }
 
+dependencies {
+    implementation 'org.xerial.snappy:snappy-java:1.1.10.1'
+    implementation 'org.lz4:lz4-java:1.8.0'
+    compileOnly 'com.ning:compress-lzf:0.8.4'
+    implementation 'com.github.luben:zstd-jni:1.5.5-1'
+    implementation ('com.google.guava:guava:27.0-jre') {
+        exclude group: 'com.google.code.findbugs', module: 'jsr305'
+        exclude group: 'org.codehaus.mojo', module: 'animal-sniffer-annotations'
+        exclude group: 'com.google.guava', module: 'listenablefuture'
+        exclude group: 'com.google.guava', module: 'failureaccess'
+        exclude group: 'org.checkerframework', module: 'checker-qual'
+        exclude group: 'com.google.errorprone', module: 'error_prone_annotations'
+    }
+    implementation 'org.hdrhistogram:HdrHistogram:2.1.9'
+    implementation 'commons-cli:commons-cli:1.1'
+    implementation 'commons-codec:commons-codec:1.15'
+    testImplementation 'commons-io:commons-io:2.6'
+    implementation 'org.apache.commons:commons-lang3:3.11'
+    implementation 'org.apache.commons:commons-math3:3.2'
+    compileOnly ('org.antlr:antlr:3.5.2') {
+        exclude group: 'org.antlr', module: 'stringtemplate'
+    }
+    implementation 'org.antlr:ST4:4.0.8'
+    implementation ('org.antlr:antlr-runtime:3.5.2') {
+        exclude group: 'org.antlr', module: 'stringtemplate'
+    }
+    implementation 'org.slf4j:slf4j-api:1.7.25'
+    implementation 'org.slf4j:log4j-over-slf4j:1.7.25'
+    implementation 'org.slf4j:jcl-over-slf4j:1.7.25'
+    implementation 'ch.qos.logback:logback-core:1.2.9'
+    implementation 'ch.qos.logback:logback-classic:1.2.9'
+    implementation 'com.fasterxml.jackson.core:jackson-core:2.13.2'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.2.2'
+    implementation 'com.fasterxml.jackson.core:jackson-annotations:2.13.2'
+    implementation 'org.msgpack:jackson-dataformat-msgpack:0.8.16'
+    implementation 'com.googlecode.json-simple:json-simple:1.1'
+    implementation 'com.boundary:high-scale-lib:1.0.6'
+    implementation "com.github.jbellis:jamm:${jamm.version}"
+    implementation 'org.yaml:snakeyaml:1.32'
+    testImplementation ('junit:junit:4.13') {
+        exclude group: 'org.hamcrest', module: 'hamcrest-core'
+    }
+    testImplementation 'org.mockito:mockito-core:3.2.4'
+    testImplementation 'org.quicktheories:quicktheories:0.26'
+    testImplementation ('com.google.code.java-allocation-instrumenter:java-allocation-instrumenter:${allocation-instrumenter.version}') {
+        exclude group: 'com.google.guava', module: 'guava'
+    }
+    testImplementation 'org.apache.cassandra:dtest-api:0.0.15'
+    testImplementation 'org.reflections:reflections:0.10.2'
+    compileOnly ('org.apache.hadoop:hadoop-core:1.0.3') {
+        exclude group: 'org.mortbay.jetty', module: 'servlet-api'
+        exclude group: 'commons-logging', module: 'commons-logging'
+        exclude group: 'org.eclipse.jdt', module: 'core'
+        exclude group: 'ant', module: 'ant'
+        exclude group: 'junit', module: 'junit'
+        exclude group: 'org.codehaus.jackson', module: 'jackson-mapper-asl'
+        exclude group: 'org.slf4j', module: 'slf4j-api'
+    }
+    compileOnly ('org.apache.hadoop:hadoop-minicluster:1.0.3') {
+        exclude group: 'asm', module: 'asm'
+        exclude group: 'org.mortbay.jetty', module: 'servlet-api'
+        exclude group: 'commons-logging', module: 'commons-logging'
+        exclude group: 'org.eclipse.jdt', module: 'core'
+        exclude group: 'ant', module: 'ant'
+        exclude group: 'junit', module: 'junit'
+        exclude group: 'org.codehaus.jackson', module: 'jackson-mapper-asl'
+        exclude group: 'org.slf4j', module: 'slf4j-api'
+    }
+    compileOnly ('org.apache.cassandra:cassandra-all:4.0-beta4') {
+        exclude group: 'com.google.guava', module: 'guava'
+        exclude group: 'org.apache.cassandra', module: 'cassandra-thrift'
+        exclude group: 'org.apache.cassandra', module: 'cassandra-clientutil'
+        exclude group: 'org.xerial.snappy', module: 'snappy-java'
+        exclude group: 'org.apache.cassandra', module: 'cassandra-all'
+    }
+}
+
+
 
 
