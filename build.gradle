@@ -4,6 +4,9 @@ plugins {
 
 repositories {
     mavenCentral()
+    maven {
+        url 'https://repo.datastax.com/dse'
+    }
 }
 
 /*
@@ -16,6 +19,13 @@ ant.importBuild('build.xml') { antTargetName ->
 }
 
 ext {
+    base_version = "4.0.11"
+    dse_db_all_version = "${base_version}-SNAPSHOT"
+    jacoco_export_dir = "${buildDir}/jacoco/"
+    jacoco_partials_dir = "${jacoco_export_dir}/partials"
+    jacoco_partialexecfile = "${jacoco_partials_dir}/partial.exec"
+    jacoco_finalexecfile = "${jacoco_export_dir}/jacoco.exec"
+    jacoco_version = '0.8.8'
     byteman_version = '4.0.20'
     jamm_version = '0.3.2'
     ecj_version = '4.6.1'
@@ -24,6 +34,12 @@ ext {
     allocation_instrumenter_version = '3.1.0'
     bytebuddy_version = '1.10.10'
     jflex_version = '1.8.2'
+    chronicle_queue_version = '5.20.123'
+    chronicle_core_version = '2.20.126'
+    chronicle_bytes_version = '2.20.111'
+    chronicle_wire_version = '2.20.117'
+    chronicle_threads_version = '2.20.111'
+
 }
 
 sourceSets {
@@ -113,6 +129,79 @@ dependencies {
         exclude group: 'org.xerial.snappy', module: 'snappy-java'
         exclude group: 'org.apache.cassandra', module: 'cassandra-all'
     }
+    compileOnly 'org.apache.hadoop:hadoop-core:1.0.3'
+    compileOnly 'org.apache.hadoop:hadoop-minicluster:1.0.3'
+    implementation 'net.java.dev.jna:jna:5.9.0'
+
+    testImplementation 'org.jacoco:org.jacoco.agent:$jacocoVersion'
+    testImplementation 'org.jacoco:org.jacoco.ant:$jacocoVersion'
+
+    compileOnly "org.jboss.byteman:byteman-install:${byteman_version}"
+    compileOnly "org.jboss.byteman:byteman:${byteman_version}"
+    compileOnly "org.jboss.byteman:byteman-submit:${byteman_version}"
+    compileOnly "org.jboss.byteman:byteman-bmunit:${byteman_version}"
+
+    implementation "net.bytebuddy:byte-buddy:${bytebuddy_version}"
+    implementation "net.bytebuddy:byte-buddy-agent:${bytebuddy_version}"
+
+    testImplementation 'org.openjdk.jmh:jmh-core:1.21'
+    testImplementation 'org.openjdk.jmh:jmh-generator-annprocess:1.21'
+
+    testImplementation 'org.apache.ant:ant-junit:1.10.12'
+
+    implementation "com.datastax.dse:dse-db-all:${dse_db_all_version}"
+    implementation 'io.dropwizard.metrics:metrics-core:3.1.5'
+    implementation 'io.dropwizard.metrics:metrics-jvm:3.1.5'
+    implementation 'io.dropwizard.metrics:metrics-logback:3.1.5'
+    implementation ('com.addthis.metrics:reporter-config3:3.0.3') {
+        exclude group: 'org.hibernate', module: 'hibernate-validator'
+    }
+    implementation 'org.mindrot:jbcrypt:0.4'
+    implementation ('io.airlift:airline:0.8') {
+        exclude group: 'com.google.code.findbugs', module: 'jsr305'
+    }
+    compileOnly 'io.netty:netty-bom:4.1.58.Final'
+    implementation 'io.netty:netty-all:4.1.58.Final'
+    implementation 'io.netty:netty-tcnative-boringssl-static:2.0.36.Final'
+    implementation 'com.google.code.findbugs:jsr305:2.0.2'
+    implementation 'com.clearspring.analytics:stream:2.5.2'
+    implementation 'com.esri.geometry:esri-geometry-api:2.2.4'
+    implementation 'com.datastax.cassandra:cassandra-driver-core:3.11.0'
+    implementation 'org.eclipse.jdt.core.compiler:ecj:$ecjVersion'
+    implementation 'org.caffinitas.ohc:ohc-core:$ohcVersion'
+    implementation 'org.caffinitas.ohc:ohc-core-j8:$ohcVersion'
+    compileOnly 'net.ju-n.compile-command-annotations:compile-command-annotations:1.2.0'
+    implementation 'org.fusesource:sigar:1.6.4'
+    implementation 'com.carrotsearch:hppc:0.8.1'
+    implementation "de.jflex:jflex:${jflex_version}"
+    implementation 'de.huxhorn.sulky:de.huxhorn.sulky.ulid:8.2.0'
+    implementation 'com.googlecode.concurrent-trees:concurrent-trees:2.4.0'
+    implementation 'com.github.ben-manes.caffeine:caffeine:3.1.8'
+    implementation 'org.jctools:jctools-core:3.1.0'
+    implementation 'org.ow2.asm:asm:$asmVersion'
+    testImplementation 'org.ow2.asm:asm-tree:$asmVersion'
+    testImplementation 'org.ow2.asm:asm-commons:$asmVersion'
+    implementation 'org.gridkit.jvmtool:sjk-cli:0.14'
+    implementation 'org.gridkit.jvmtool:sjk-core:0.14'
+    implementation 'org.gridkit.jvmtool:sjk-stacktrace:0.14'
+    implementation 'org.gridkit.jvmtool:mxdump:0.14'
+    implementation 'org.gridkit.lab:jvm-attach-api:1.5'
+    implementation 'org.gridkit.jvmtool:sjk-json:0.14'
+    implementation 'com.beust:jcommander:1.30'
+    implementation 'org.psjava:psjava:0.1.19'
+    compileOnly 'com.google.j2objc:j2objc-annotations:1.3'
+    testImplementation 'org.junit:junit-bom:1.0.0'
+    compileOnly 'org.assertj:assertj-core:3.15.0'
+    testImplementation 'org.awaitility:awaitility:4.0.3'
+    testImplementation 'org.hamcrest:hamcrest:2.2'
+    implementation 'org.agrona:agrona:1.20.0'
+    implementation 'org.apache.lucene:lucene-core:9.8.0-5ea8bb4f21'
+    implementation 'org.apache.lucene:lucene-analysis-common:9.8.0-5ea8bb4f21'
+    implementation 'io.github.jbellis:jvector:3.0.0-alpha.5'
+    testImplementation 'com.bpodgursky:jbool_expressions:1.14'
+    testImplementation 'com.carrotsearch.randomizedtesting:randomizedtesting-runner:2.1.2'
+    implementation 'io.micrometer:micrometer-core:1.5.5'
+    implementation 'org.latencyutils:LatencyUtils:2.0.3'
 }
 
 
