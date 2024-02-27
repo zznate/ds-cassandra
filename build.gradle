@@ -2,8 +2,28 @@ plugins {
     id 'java-library'
 }
 
+repositories {
+    mavenCentral()
+}
+
+/*
+ * Import the ant build file for access to properties, tasks, etc.
+ *
+ * Rename the tasks from ant with an 'a_' to avoid name collision
+ */
 ant.importBuild('build.xml') { antTargetName ->
-    'g_' + antTargetName
+    'a_' + antTargetName
+}
+
+ext {
+    byteman_version = '4.0.20'
+    jamm_version = '0.3.2'
+    ecj_version = '4.6.1'
+    ohc_version = '0.5.1'
+    asm_version = '7.1'
+    allocation_instrumenter_version = '3.1.0'
+    bytebuddy_version = '1.10.10'
+    jflex_version = '1.8.2'
 }
 
 sourceSets {
@@ -14,6 +34,9 @@ sourceSets {
         }
     }
 }
+/*
+ * Dependency list from ant
+ */
 
 dependencies {
     implementation 'org.xerial.snappy:snappy-java:1.1.10.1'
@@ -52,14 +75,14 @@ dependencies {
     implementation 'org.msgpack:jackson-dataformat-msgpack:0.8.16'
     implementation 'com.googlecode.json-simple:json-simple:1.1'
     implementation 'com.boundary:high-scale-lib:1.0.6'
-    implementation "com.github.jbellis:jamm:${jamm.version}"
+    implementation "com.github.jbellis:jamm:${jamm_version}"
     implementation 'org.yaml:snakeyaml:1.32'
     testImplementation ('junit:junit:4.13') {
         exclude group: 'org.hamcrest', module: 'hamcrest-core'
     }
     testImplementation 'org.mockito:mockito-core:3.2.4'
     testImplementation 'org.quicktheories:quicktheories:0.26'
-    testImplementation ('com.google.code.java-allocation-instrumenter:java-allocation-instrumenter:${allocation-instrumenter.version}') {
+    testImplementation ('com.google.code.java-allocation-instrumenter:java-allocation-instrumenter:${allocation_instrumenter_version}') {
         exclude group: 'com.google.guava', module: 'guava'
     }
     testImplementation 'org.apache.cassandra:dtest-api:0.0.15'
